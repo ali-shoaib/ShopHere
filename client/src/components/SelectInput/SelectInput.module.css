@@ -1,0 +1,11 @@
+.wrapper{
+    width: 100%;
+}
+.wrapper select{
+    width: 100%;
+    padding: 14px;
+    border-radius: 9px;
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    border: 2px solid #b8b6b6;
+}

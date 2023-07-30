@@ -1,0 +1,38 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    min-height: 60vh;
+}
+.wrapper h1{
+    color: red;
+    font-size: 40px;
+}
+.wrapper button{
+    padding: 13px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: none;
+    background: steelblue;
+}
+.wrapper button:hover{
+    border-radius: 50px;
+}
+.wrapper button a{
+    color: #fff;
+    text-decoration: none;
+}
+.wrapper span{
+    font-size: 20px;
+    margin: 0 10px 0 0;
+}
+.wrapper div{
+    margin: 15px 0 0 0;
+}
+@media only screen and (max-width: 768px) {
+    .wrapper h1{
+        font-size: 27px;
+    }
+}

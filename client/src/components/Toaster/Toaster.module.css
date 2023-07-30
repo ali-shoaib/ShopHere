@@ -1,0 +1,17 @@
+.wrapper{
+    width: 400px;
+    height: 55px;
+    border-radius: 8px;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.wrapper span{
+    font-size: 25px;
+}

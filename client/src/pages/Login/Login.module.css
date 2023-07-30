@@ -1,0 +1,19 @@
+.wrapper{
+    width: 500px;
+    max-width: 98%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60vh;
+}
+.heading{
+    text-align: center;
+    margin: 0 0 20px 0;
+    font-family: 'Playfair Display', serif;
+}
+.loginbutton{
+    width: 100%;
+    padding: 14px;
+    font-size: 20px;
+}
