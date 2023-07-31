@@ -2,6 +2,8 @@ import { JWT_SECRET } from '../config/index.js';
 import { comparePassword, hashPassword } from '../helpers/bcrypt.js';
 import userSchema from '../models/user.js';
 import jwt from 'jsonwebtoken';
+import JWTService from '../services/JWTService.js'
+import refreshTokenSchema from '../models/token.js';
 
 export const registerController = async(req,res) => {
     try{
@@ -81,10 +83,36 @@ export const loginController = async(req,res) => {
             });
         }
 
+        const accessToken = JWTService.signAccessToken({ _id: user._id }, "30m");
+        const refreshToken = JWTService.signRefreshToken({ _id: user._id }, "60m");
+
+        // update refresh token in database
+        try {
+            await refreshTokenSchema.updateOne(
+                {
+                _id: user._id,
+                },
+                { token: refreshToken },
+                { upsert: true }
+            );
+        } catch (error) {
+            return next(error);
+        }
+
+        res.cookie("accessToken", accessToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true,
+        });
+
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true,
+        });
+
         // token
-        const token = await jwt.sign({_id:user._id}, JWT_SECRET, {
-            expiresIn:'7d'
-        })
+        // const token = await jwt.sign({_id:user._id}, JWT_SECRET, {
+        //     expiresIn:'7d'
+        // })
 
         res.status(200).send({
             success:true,
@@ -97,7 +125,6 @@ export const loginController = async(req,res) => {
                 gender: user.gender,
                 createdAt: user.createdAt
             },
-            token
         });
     }
     catch(err){
@@ -107,6 +134,97 @@ export const loginController = async(req,res) => {
             message:"Error in Login",
             err
         }); 
+    }
+}
+
+export const refresh = async(req,res,next) => {
+    const originalRefreshToken = req.cookies.refreshToken;
+
+    let id;
+
+    try {
+        id = JWTService.verifyRefreshToken(originalRefreshToken)._id;
+    } 
+    catch (e) {
+        const error = {
+            status: 401,
+            message: "Unauthorized",
+        };
+
+        return next(error);
+    }
+
+    try {
+        const match = refreshTokenSchema.findOne({
+            _id: id,
+            token: originalRefreshToken,
+        });
+
+        if (!match) {
+            const error = {
+            status: 401,
+            message: "Unauthorized",
+            };
+
+            return next(error);
+        }
+    } catch (e) {
+        return next(e);
+    }
+
+    try {
+        const accessToken = JWTService.signAccessToken({ _id: id }, "30m");
+
+        const refreshToken = JWTService.signRefreshToken({ _id: id }, "60m");
+
+        await refreshTokenSchema.updateOne({ _id: id }, { token: refreshToken });
+
+        res.cookie("accessToken", accessToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true,
+        });
+
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true,
+        });
+    } catch (e) {
+        return next(e);
+    }
+
+    const user = await userSchema.findOne({ _id: id });
+
+    let UserDTO = {
+        name:user.name,
+        email:user.email,
+        gender: user.gender,
+        createdAt: user.createdAt,
+        _id: user._id,
+        address: user.address
+    }
+
+    return res.status(200).json({ user: UserDTO, auth: true });
+}
+
+export const logoutController = async(req,res) => {
+    try{
+        const { refreshToken } = req.cookies;
+
+        try {
+        await refreshTokenSchema.deleteOne({ token: refreshToken });
+        } catch (error) {
+        res.json({message:error});
+        }
+
+        // delete cookies
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+
+        // 2. response
+        res.status(200).json({ user: null, auth: false });
+    }
+    catch(err){
+        console.log(err);
     }
 }
 

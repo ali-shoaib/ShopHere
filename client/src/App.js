@@ -9,8 +9,13 @@ import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
+import useAutoLogin from './hooks/useAutoLogin';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const isAuth = useSelector(state => state.user.auth);
+
+  const loading = useAutoLogin();
   return (
     <>
       <BrowserRouter>

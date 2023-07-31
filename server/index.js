@@ -4,7 +4,11 @@ import connectDB from './database/mongodbConnect.js';
 import color from 'colors';
 import router from './routes/index.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import errorHandler from './middlewares/errorHandler.js';
 const app = express();
+
+app.use(cookieParser());
 
 // database connect
 connectDB();
@@ -23,6 +27,8 @@ app.use(express.json());
 
 // rest api
 app.use("/api/v1",router);
+
+app.use(errorHandler);
 
 app.listen((PORT),() => {
     console.log(`${DEV} server listening on ${PORT}`.bgBlue.white);
