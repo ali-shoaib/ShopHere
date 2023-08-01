@@ -16,4 +16,14 @@
     width: 100%;
     padding: 14px;
     font-size: 20px;
+    position: relative;
+}
+.loader{
+    background: transparent;
+    position: absolute;
+    left: 15px;
+    bottom: 0;
+}
+.loader > *{
+    background: transparent;
 }

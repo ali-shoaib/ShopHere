@@ -48,7 +48,14 @@ export const registerController = async(req,res) => {
         res.status(201).send({
             success:true,
             message:"User Registered!",
-            user
+            user:{
+                name:user.name,
+                email:user.email,
+                phone: user.phone,
+                address: user.address,
+                gender: user.gender,
+                createdAt: user.createdAt
+            },
         })
     }
     catch(err){
@@ -221,7 +228,17 @@ export const logoutController = async(req,res) => {
         res.clearCookie("refreshToken");
 
         // 2. response
-        res.status(200).json({ user: null, auth: false });
+        res.status(200).json({ user: null, success:true });
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+export const dashboard = (req,res) => {
+    try{
+        const {name,email} = req.user;
+        res.status(200).json({message:"Hey admin!",user:{name,email}});
     }
     catch(err){
         console.log(err);

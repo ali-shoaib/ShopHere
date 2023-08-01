@@ -1,5 +1,6 @@
 import express from  'express';
 import { 
+    dashboard,
     loginController, 
     logoutController, 
     refresh, 
@@ -10,6 +11,8 @@ import { auth, isAdmin } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 router.get("/test", auth, isAdmin, testRoute);
+
+router.get("/dashboard", auth, isAdmin, dashboard);
 
 router.post("/register", registerController);
 

@@ -32,3 +32,27 @@ export const login = async (data) => {
   
     return response;
 };
+
+export const logout = async () => {
+  let response;
+
+  try {
+    response = await api.get("logout");
+  } catch (error) {
+    return error;
+  }
+
+  return response;
+};
+
+export const dashboard = async () => {
+  let response;
+
+  try {
+    response = await api.get("dashboard");
+  } catch (error) {
+    return error;
+  }
+
+  return response;
+};

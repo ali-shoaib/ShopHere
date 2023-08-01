@@ -4,6 +4,7 @@ import style from "./Navbar.module.css";
 import {FaShopify} from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser } from "../../store/userSlice";
+import { logout } from "../../api/internal";
 
 function Navbar() {
   const [showNav, setShowNav] = useState(false);
@@ -16,8 +17,15 @@ function Navbar() {
   };
 
   const handleSignOut = async () => {
-    // await signout();
-    dispatch(resetUser());
+   try{
+    let res = await logout();
+    if(res.data.success || res.status===200){
+      dispatch(resetUser());
+    }
+   }
+   catch(err){
+    console.log(err);
+   }
   };
 
   const navref = useRef();
@@ -93,6 +101,7 @@ function Navbar() {
         {showNav ?
         <span style={{background:'none',color:"#000",fontSize:'20px'}}>X</span>:
         <>
+        <div></div>
         <div></div>
         <div></div>
         <div></div>

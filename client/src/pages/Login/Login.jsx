@@ -6,6 +6,7 @@ import Toaster from '../../components/Toaster/Toaster';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlice";
+import {RotatingLines} from 'react-loader-spinner';
 
 function Login() {
   const [input,setInput] = useState({
@@ -14,6 +15,7 @@ function Login() {
   })
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading,setIsLoading] = useState(false);
 
   // const showMessage = () =>{
   //   setTimeout(() => setShow(false),3000);
@@ -23,34 +25,43 @@ function Login() {
     setInput({...input, [e.target.name]: e.target.value,})
   }
 
-  const handleSubmit=async()=>{
-    if(!input.email || !input.password){
-      alert("Fill all fields.");
+  const handleLogin=async()=>{
+    try{
+      setIsLoading(true);
+      if(!input.email || !input.password){
+        alert("Fill all fields.");
+      }
+      else{
+        let data = {
+          email:input.email,
+          password:input.password
+        }
+        let res = await login(data);
+  
+        if(res.status === 200 && res.data.success){
+          
+          const user = {
+            email: res.data.user.email,
+            name: res.data.user.name,
+            auth: res.data.success,
+            createdAt: res.data.user.createdAt,
+            gender: res.data.user.gender,
+            address: res.data.user.address
+          };
+  
+          dispatch(setUser(user));
+  
+          setIsLoading(false);
+  
+          input.email = '';
+          input.password = '';
+          navigate('/')
+        }  
+      }
     }
-    else{
-      let data = {
-        email:input.email,
-        password:input.password
-      }
-      let res = await login(data);
-
-      if(res.status === 200 && res.data.success){
-        
-        const user = {
-          email: res.data.user.email,
-          name: res.data.user.name,
-          auth: res.data.success,
-          createdAt: res.data.user.createdAt,
-          gender: res.data.user.gender,
-          address: res.data.user.address
-        };
-
-        dispatch(setUser(user));
-
-        input.email = '';
-        input.password = '';
-        navigate('/')
-      }
+    catch(err){
+      console.info(err);
+      setIsLoading(false);
     }
   }
   return (
@@ -70,7 +81,22 @@ function Login() {
       value={input.password}
       onChange={handleChange}
       />
-      <button className={style.loginbutton} onClick={handleSubmit}>Login</button>
+      <button className={style.loginbutton} onClick={handleLogin}>
+        {isLoading ? 
+          <span className={style.loader}>
+          <RotatingLines
+            width="42"
+            radius="9"
+            strokeColor='steelBlue'
+            strokeWidth="5"
+            animationDuration="0.75"
+            visible={true}
+          />
+          </span>
+          :
+        null}
+        Login
+        </button>
     </div>
   )
 }
