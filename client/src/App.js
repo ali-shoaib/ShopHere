@@ -12,11 +12,17 @@ import Signup from './pages/Signup/Signup';
 import useAutoLogin from './hooks/useAutoLogin';
 import { useSelector } from 'react-redux';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Protected from './components/Protected/Protected';
+import useAuthAdmin from './hooks/useAuthAdmin';
 
 function App() {
   const isAuth = useSelector(state => state.user.auth);
 
-  const loading = useAutoLogin();
+  const isAdmin = useAuthAdmin();
+
+  console.log("isAdmin => ",isAdmin);
+
+  useAutoLogin();
   return (
     <>
       <BrowserRouter>
@@ -29,8 +35,12 @@ function App() {
             <Route path='/about' element={<About />}/>
             <Route path='/login' element={<Login />}/>
             <Route path='/register' element={<Signup />}/>
-            <Route path='/dashboard' element={<Dashboard />}/>
-            <Route path='*' element={<ErrorPage />}/>
+            <Route path='/dashboard' element={
+              <Protected isAdmin={isAdmin}>
+                <Dashboard />
+              </Protected>
+            }/>
+            <Route path='*' element={<ErrorPage msg="404 - Page Not Found :(" />}/>
           </Routes>
         </div>
         <Footer />

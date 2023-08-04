@@ -1,0 +1,12 @@
+.loaderWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 400px);
+    z-index: 11111;
+}
+.loaderWrapper h2{
+    font-family: 'Poppins', sans-serif;
+}

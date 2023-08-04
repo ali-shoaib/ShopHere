@@ -1,8 +1,8 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom';
 
-function Protected({isAuth, children}) {
-    if(isAuth){
+function Protected ({isAdmin, children}) {
+    if(isAdmin){
         return children;
     }
     else{

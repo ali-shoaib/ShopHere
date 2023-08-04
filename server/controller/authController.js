@@ -238,7 +238,11 @@ export const logoutController = async(req,res) => {
 export const dashboard = (req,res) => {
     try{
         const {name,email} = req.user;
-        res.status(200).json({message:"Hey admin!",user:{name,email}});
+        res.status(200).json({
+            message:"Hey admin!",
+            user:{name,email},
+            admin:true
+        });
     }
     catch(err){
         console.log(err);

@@ -11,27 +11,27 @@ function useAutoLogin() {
 
   useEffect(() => {
     (async function autoLoginApiCall(){
-        try {
-            const response = await axios.get(
-              `${FRONTEND_INTERNAL_API_PATH}refresh`,
-              {
-                withCredentials: true,
-              }
-            );
-    
-            if (response.status === 200) {
-              // 1. setUser
-              const user = {
-                email: response.data.user.email,
-                address: response.data.user.address,
-                auth: response.data.auth,
-                name: response.data.user.name,
-                createdAt: response.data.user.createdAt,
-                gender : response.data.user.gender
-              };
-    
-              dispatch(setUser(user));
-            }
+      try {
+        const response = await axios.get(
+          `${FRONTEND_INTERNAL_API_PATH}refresh`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (response.status === 200) {
+          // 1. setUser
+          const user = {
+            email: response.data.user.email,
+            address: response.data.user.address,
+            auth: response.data.auth,
+            name: response.data.user.name,
+            createdAt: response.data.user.createdAt,
+            gender : response.data.user.gender
+          };
+
+          dispatch(setUser(user));
+          }
         } catch (error) {
         setLoading(false);
         } finally {

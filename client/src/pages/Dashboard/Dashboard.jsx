@@ -1,8 +1,11 @@
 import React from 'react'
+import Loader from '../../components/Loader/Loader'
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <div>Dashboard
+      <Loader msg='wow'/>
+    </div>
   )
 }
 
