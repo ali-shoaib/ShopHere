@@ -4,7 +4,7 @@ import Loader from '../../components/Loader/Loader'
 function Dashboard() {
   return (
     <div>Dashboard
-      <Loader msg='wow'/>
+      {/* <Loader msg='wow'/> */}
     </div>
   )
 }

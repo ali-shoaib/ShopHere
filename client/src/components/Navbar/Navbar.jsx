@@ -1,5 +1,5 @@
 import React,{useState,useRef} from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import style from "./Navbar.module.css";
 import {FaShopify} from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,7 @@ function Navbar() {
     let res = await logout();
     if(res.data.success || res.status===200){
       dispatch(resetUser());
+      <Navigate to='/'/>
     }
    }
    catch(err){

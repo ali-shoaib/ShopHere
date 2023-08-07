@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlice";
 import {RotatingLines} from 'react-loader-spinner';
+import { setAdmin } from "../../store/adminSlice";
 
 function Login() {
   const [input,setInput] = useState({
@@ -48,6 +49,13 @@ function Login() {
             gender: res.data.user.gender,
             address: res.data.user.address
           };
+
+          if(res.data.user.role === 1){
+            let isAdmin = {
+              isAdmin: true
+            }
+            dispatch(setAdmin(isAdmin));
+          }
   
           dispatch(setUser(user));
   

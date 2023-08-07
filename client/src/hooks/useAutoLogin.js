@@ -3,6 +3,7 @@ import { setUser } from "../store/userSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { FRONTEND_INTERNAL_API_PATH } from "../config/keys";
+import { setAdmin } from "../store/adminSlice";
 
 function useAutoLogin() {
   const [loading, setLoading] = useState(true);
@@ -29,6 +30,13 @@ function useAutoLogin() {
             createdAt: response.data.user.createdAt,
             gender : response.data.user.gender
           };
+
+          if(response.data.user.role === 1){
+            let isAdmin = {
+              isAdmin: true
+            }
+            dispatch(setAdmin(isAdmin));
+          }
 
           dispatch(setUser(user));
           }

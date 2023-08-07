@@ -116,11 +116,6 @@ export const loginController = async(req,res) => {
             httpOnly: true,
         });
 
-        // token
-        // const token = await jwt.sign({_id:user._id}, JWT_SECRET, {
-        //     expiresIn:'7d'
-        // })
-
         res.status(200).send({
             success:true,
             message:"Login Successful!",
@@ -130,7 +125,8 @@ export const loginController = async(req,res) => {
                 phone: user.phone,
                 address: user.address,
                 gender: user.gender,
-                createdAt: user.createdAt
+                createdAt: user.createdAt,
+                role: user.role
             },
         });
     }
@@ -207,7 +203,8 @@ export const refresh = async(req,res,next) => {
         gender: user.gender,
         createdAt: user.createdAt,
         _id: user._id,
-        address: user.address
+        address: user.address,
+        role: user.role
     }
 
     return res.status(200).json({ user: UserDTO, auth: true });
