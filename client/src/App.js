@@ -12,10 +12,11 @@ import Signup from "./pages/Signup/Signup";
 import useAutoLogin from "./hooks/useAutoLogin";
 import { useSelector } from "react-redux";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import ProtectedRouteAdmin from "./components/ProtectedRouteAdmin/ProtectedRouteAdmin";
 import Loader from "./components/Loader/Loader";
 import Cart from "./pages/Cart/Cart";
 import Categories from "./pages/Categories/Categories";
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 function App() {
   const isAuth = useSelector((state) => state.user.auth);
@@ -42,18 +43,19 @@ function App() {
               path="/dashboard"
               exact
               element={
-                <ProtectedRoute isAdmin={isAdmin} isAuth={isAuth}>
+                <ProtectedRouteAdmin isAdmin={isAdmin} isAuth={isAuth}>
                   <Dashboard />
-                </ProtectedRoute>
+                </ProtectedRouteAdmin>
               }
             />
             <Route path="/cart"
-            exact
-            element={
-              <ProtectedRoute isAuth={isAuth}>
-                <Cart />
-              </ProtectedRoute>
-            } />
+              exact
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/categories"
             exact
             element={

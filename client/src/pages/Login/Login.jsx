@@ -28,11 +28,11 @@ function Login() {
 
   const handleLogin=async()=>{
     try{
-      setIsLoading(true);
       if(!input.email || !input.password){
         alert("Fill all fields.");
       }
       else{
+        setIsLoading(true);
         let data = {
           email:input.email,
           password:input.password

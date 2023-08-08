@@ -54,46 +54,50 @@ function Navbar() {
         >
           Categories
         </NavLink>
-        {!isAuthenticated &&
-        <>
-          <NavLink
-            to="login"
+        {isAuthenticated ?
+          <>
+            <select>
+              <option>User</option>
+              <option>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? style.activeStyle : style.inActiveStyle
+                }
+              >
+                <button className={style.signOutButton} onClick={handleSignOut}>
+                  SignOut
+                </button>
+              </NavLink>
+              </option>
+            </select>
+            <NavLink
+            to="cart"
             className={({ isActive }) =>
               isActive ? style.activeStyle : style.inActiveStyle
-            }
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="register"
-            className={({ isActive }) =>
-              isActive ? style.activeStyle : style.inActiveStyle
-            }
-          >
-            Register
-          </NavLink>
-        </>
-        }
-        {isAuthenticated &&
-        <>
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? style.activeStyle : style.inActiveStyle
-            }
-          >
-            <button className={style.signOutButton} onClick={handleSignOut}>
-              SignOut
-            </button>
-          </NavLink>
-          <NavLink
-          to="cart"
-          className={({ isActive }) =>
-            isActive ? style.activeStyle : style.inActiveStyle
-            }
-          >
-            Cart (0)
-          </NavLink>
-        </>          
+              }
+            >
+              Cart (0)
+            </NavLink>
+          </>
+          :
+          <>
+            <NavLink
+              to="login"
+              className={({ isActive }) =>
+                isActive ? style.activeStyle : style.inActiveStyle
+              }
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to="register"
+              className={({ isActive }) =>
+                isActive ? style.activeStyle : style.inActiveStyle
+              }
+            >
+              Register
+            </NavLink>
+          </>
         }
       </nav>
       <button
