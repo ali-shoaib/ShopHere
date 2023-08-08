@@ -5,6 +5,7 @@ import {FaShopify} from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { resetUser } from "../../store/userSlice";
 import { logout } from "../../api/internal";
+import { resetAdmin } from "../../store/adminSlice";
 
 function Navbar() {
   const [showNav, setShowNav] = useState(false);
@@ -19,9 +20,9 @@ function Navbar() {
   const handleSignOut = async () => {
    try{
     let res = await logout();
-    if(res.data.success || res.status===200){
+    if(res.data.success && res.status===200){
       dispatch(resetUser());
-      <Navigate to='/'/>
+      dispatch(resetAdmin());
     }
    }
    catch(err){

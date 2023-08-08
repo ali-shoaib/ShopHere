@@ -64,7 +64,10 @@ function Login() {
           input.email = '';
           input.password = '';
           navigate('/')
-        }  
+        }
+        else{
+          setIsLoading(false);
+        }
       }
     }
     catch(err){

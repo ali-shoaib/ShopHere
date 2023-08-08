@@ -1,11 +1,34 @@
 import React from 'react';
-import {Navigate, Outlet} from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {Navigate} from 'react-router-dom';
 
-function ProtectedRoute () {
-    const isAdmin = useSelector(state => state.admin.isAdmin);
+function ProtectedRoute ({isAdmin,isAuth,children}) {
+    // const [isAdmin, setIsAdmin] = useState(false);
 
-    return isAdmin ? <Outlet/> : <Navigate to='/login'/>;
+    // console.log("isAdmin => ",isAdmin);
+
+    // useEffect(() => {
+    //     const fetchData = async() => {
+    //         const res = await dashboard();
+
+    //         if(res.data.admin){
+    //             console.log(res);
+    //             setIsAdmin(true);
+    //         }
+    //         else{
+    //             setIsAdmin(false);
+    //         }
+    //     }
+
+    //     fetchData()
+    //     .catch(console.error);
+    // },[])
+
+    if(isAdmin && isAuth) {
+        return children;
+    }
+    else{
+        return <Navigate to="/login" />
+    }
 }
 
 export default ProtectedRoute;
