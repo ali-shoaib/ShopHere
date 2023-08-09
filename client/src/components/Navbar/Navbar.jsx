@@ -1,5 +1,5 @@
 import React,{useState,useRef} from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import style from "./Navbar.module.css";
 import {FaShopify} from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,8 @@ function Navbar() {
   const [showNav, setShowNav] = useState(false);
   const isAuthenticated = useSelector((state) => state.user.auth);
   const dispatch = useDispatch();
+  const isAdmin = useSelector((state) => state.admin.isAdmin);
+  const [show,setShow] = useState(false);
 
   const getNavClass = () => {
     if (!showNav) return "";
@@ -23,12 +25,18 @@ function Navbar() {
     if(res.data.success && res.status===200){
       dispatch(resetUser());
       dispatch(resetAdmin());
+      setShow(false);
     }
    }
    catch(err){
     console.log(err);
    }
   };
+
+  const addClass = () => {
+    if(show) return style.active_options
+    return '';
+  }
 
   const navref = useRef();
   return (
@@ -56,23 +64,26 @@ function Navbar() {
         </NavLink>
         {isAuthenticated ?
           <>
-            <select>
-              <option>User</option>
-              <option>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? style.activeStyle : style.inActiveStyle
-                }
-              >
-                <button className={style.signOutButton} onClick={handleSignOut}>
-                  SignOut
-                </button>
-              </NavLink>
-              </option>
-            </select>
+            <button className={style.userbtn} onClick={()=>setShow(!show)}>{isAdmin ? 'Admin' : 'User'}</button>  
+            <div style={{position:'relative'}}>
+              <ul className={`${style.useroptions} ${addClass()}`}>
+                <li>Profile</li>
+                <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? style.activeStyle : style.inActiveStyle
+                  }
+                >
+                  <button className={style.signOutButton} onClick={handleSignOut}>
+                    SignOut
+                  </button>
+                </NavLink>
+                </li>
+              </ul>
+            </div>
             <NavLink
-            to="cart"
-            className={({ isActive }) =>
+              to="cart"
+              className={({ isActive }) =>
               isActive ? style.activeStyle : style.inActiveStyle
               }
             >

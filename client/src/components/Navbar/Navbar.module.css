@@ -15,6 +15,7 @@ header{
     padding: 20px 0;
     margin: auto;
     width: 100%;
+    position: relative;
 }
 .navbar > a{
     margin: 0 15px;
@@ -96,6 +97,31 @@ header{
     height: 2px;
     margin: 0 0 5px 0;
     background-color: #000;
+}
+.userbtn{
+    font-size: 22px;
+    background: none;
+    border-radius: 7px;
+    padding: 5px;
+    cursor: pointer;
+    color: grey;
+    border: 2px solid lightgrey;
+}
+.useroptions{
+    background: lightgrey;
+    padding: 8px;
+    list-style: none;
+    border-radius: 7px;
+    position: absolute;
+    right: 0px;
+    top: 22px;
+    display: none;
+}
+.useroptions li{
+    font-size: 20px;
+}
+.active_options{
+    display: initial;
 }
 @media only screen and (max-width: 768px) {
     /* .navbar{
